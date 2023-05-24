@@ -1,9 +1,8 @@
 const router = require("express").Router();
-const { User, Thought } = require('../models');
+const { User, Thought } = require('../../models');
 
 
-// ========== User routes ========== //
-router.get('/users', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const allUsers = await User.find()
     console.log();
@@ -15,7 +14,7 @@ router.get('/users', async (req, res) => {
   }
 })
 
-router.get('/users/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
     console.log();
@@ -27,7 +26,7 @@ router.get('/users/:id', async (req, res) => {
   }
 })
 
-router.post('/users', async (req, res) => {
+router.post('/', async (req, res) => {
 
   try {
     console.log(req.body)
@@ -39,7 +38,7 @@ router.post('/users', async (req, res) => {
   }
 })
 
-router.put('/users/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
 
   try {
     console.log(req.body)
@@ -54,7 +53,7 @@ router.put('/users/:id', async (req, res) => {
   }
 })
 
-router.delete('/users/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
 
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id)
@@ -65,32 +64,5 @@ router.delete('/users/:id', async (req, res) => {
   }
 })
 
-// ========== Group Routes ========== //
-
-router.get('/thoughts', async (req, res) => {
-  try {
-    const allThoughts = await Thought.find()
-
-    res.status(200).json({ allThoughts });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json(err);
-  }
-})
-
-router.post('/thoughts', async (req, res) => {
-  try {
-    const newThought = await Thought.create(req.body);
-    const updatedUser = await User.findByIdAndUpdate(
-      req.body.userId,
-      { thought: newThought._id },
-      { new: true }
-    );
-    res.status(200).json({ thought: newThought, updatedUser });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json(err);
-  }
-})
 
 module.exports = router;
