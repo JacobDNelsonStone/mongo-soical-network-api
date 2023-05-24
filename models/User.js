@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     unique: true,
     required: true,
+    lowercase: true,
     match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/, 'Please enter a valid email address.']
 
   },
@@ -34,9 +35,9 @@ const userSchema = new mongoose.Schema({
     id: false,
 });
 
-userSchema.virtual('friendCount').get(function () {
-  return `${this.username} has ${friends.length} friends`;
-})
+// userSchema.virtual('friendCount').get(function () {
+//   return `${this.username} has ${friends.length} friends`;
+// })
 
 const User = mongoose.model('User', userSchema);
 
