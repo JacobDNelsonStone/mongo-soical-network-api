@@ -36,7 +36,7 @@ const thoughtSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
     get: (date) => {
-      if (date) return date.format('MMM DD, YYYY')
+      if (date) return dayjs(date).format('MMM DD, YYYY')
     }
   },
   username: {
@@ -55,7 +55,7 @@ const thoughtSchema = new mongoose.Schema({
 });
 
 thoughtSchema.virtual('reactionCount').get(function () {
-  return `${reactions.length}`;
+  return `this thought has ${this.reactions.length} reactions`;
 })
 
 const Thought = mongoose.model('Thought', thoughtSchema);

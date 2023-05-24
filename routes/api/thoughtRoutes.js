@@ -12,12 +12,23 @@ router.get('/', async (req, res) => {
   }
 })
 
+router.get('/:id', async (req, res) => {
+  try {
+    const thought = await Thought.findById(req.params.id)
+
+    res.status(200).json({ thought });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+})
+
 router.post('/', async (req, res) => {
   try {
     const newThought = await Thought.create(req.body);
     const updatedUser = await User.findByIdAndUpdate(
       req.body.userId,
-      { thought: newThought._id },
+      { thoughts: newThought._id },
       { new: true }
     );
     res.status(200).json({ thought: newThought, updatedUser });
@@ -27,5 +38,15 @@ router.post('/', async (req, res) => {
   }
 })
 
+router.delete('/:id', async (req, res) => {
+
+  try {
+    const deletedThought = await Thought.findByIdAndDelete(req.params.id)
+    res.status(202).json({ message: 'Thought deleted', payload: deletedThought });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err)
+  }
+})
 
 module.exports = router; 
