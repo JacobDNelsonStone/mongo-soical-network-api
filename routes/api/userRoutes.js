@@ -38,12 +38,26 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.put('/:id', async (req, res) => {
+router.post('/:userId/friends/:friendId', async (req, res) => {
+  console.log(req.params.userId || req.params.friendId);
+  try {
+    const userFriend = await User.findByIdAndUpdate({ _id: req.params.userId },
+      { friends: req.params.friendId },
+    )
+    console.log(userFriend);
 
+    res.status(200).json({ userFriend });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+})
+
+router.put('/:id', async (req, res) => {
   try {
     console.log(req.body)
-    const updatedUser = await User.findByIdAndUpdate({_id: req.params.id},
-      req.body,
+    const updatedUser = await User.findByIdAndUpdate({ _id: req.params.id },
+      { $set: req.body },
       { new: true }
     );
     res.status(200).json({ updatedUser });
@@ -64,5 +78,20 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
+router.delete('/:userId/friends/:friendId', async (req, res) => {
+  console.log(req.params.userId || req.params.friendId);
+  try {
+    const userDeletedFriend = await User.findByIdAndUpdate({ _id: req.params.userId },
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
+    );
+    console.log(userDeletedFriend)
+
+    res.status(202).json({ message: 'Friend removed', updatedUser: userDeletedFriend });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+})
 
 module.exports = router;

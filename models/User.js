@@ -34,9 +34,9 @@ const userSchema = new mongoose.Schema({
     id: false,
 });
 
-// userSchema.virtual('friendCount').get(function () {
-//   return `${this.username} has ${friends.length} friends`;
-// })
+userSchema.virtual('friendCount').get(function () {
+  return `${this.username} has ${this.friends.length} friends`;
+})
 
 const User = mongoose.model('User', userSchema);
 
