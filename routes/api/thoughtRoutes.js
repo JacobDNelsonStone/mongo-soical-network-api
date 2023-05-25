@@ -21,7 +21,7 @@ router.get('/:id', async (req, res) => {
     console.log(err);
     res.status(400).json(err);
   }
-})
+});
 
 router.post('/', async (req, res) => {
   try {
@@ -32,6 +32,34 @@ router.post('/', async (req, res) => {
       { new: true }
     );
     res.status(200).json({ thought: newThought, updatedUser });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+});
+
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedThought = await Thought.findByIdAndUpdate({ _id: req.params.id },
+      { $set: req.body },
+      { new: true }
+    )
+    res.status(200).json({ updatedThought });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+});
+
+router.post('/:thoughtId/reactions', async (req, res) => {
+  console.log(req.params.thoughtId);
+  try {
+    const thoughtReaction = await Thought.findByIdAndUpdate({ _id: req.params.thoughtId },
+      { reactions: req.body },
+    )
+    console.log(userFriend);
+
+    res.status(200).json({ userFriend });
   } catch (err) {
     console.log(err);
     res.status(400).json(err);
