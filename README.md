@@ -6,4 +6,4 @@ This assignment we were tasked with creating a simple social network-esque api f
 
 ## Links 
 
-[Link to the google drive video walkthrough]()
+[Link to the google drive video walkthrough](https://drive.google.com/file/d/1xzYQXJay8zWqfLoy9tjEv6BVAum69tGL/view)
