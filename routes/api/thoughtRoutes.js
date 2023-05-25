@@ -55,14 +55,30 @@ router.post('/:thoughtId/reactions', async (req, res) => {
   console.log(req.params.thoughtId);
   try {
     const thoughtReaction = await Thought.findByIdAndUpdate({ _id: req.params.thoughtId },
-      { reactions: req.body },
+      { $addToSet: { reactions: req.body } },
+      { new: true }
     )
-    console.log(userFriend);
+    console.log(thoughtReaction);
 
-    res.status(200).json({ userFriend });
+    res.status(200).json({ thoughtReaction });
   } catch (err) {
     console.log(err);
     res.status(400).json(err);
+  }
+})
+
+router.delete('/:thoughtId/reactions/:reactionId', async (req, res) => {
+
+  try {
+    const deletedReaction = await Thought.findByIdAndUpdate({ _id: req.params.thoughtId },
+      { $pull: { reactions: req.params.reactionId } },
+      { new: true }
+    )
+
+    res.status(202).json({ message: 'Reaction deleted', payload: deletedReaction });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err)
   }
 })
 

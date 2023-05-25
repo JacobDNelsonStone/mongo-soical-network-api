@@ -3,10 +3,10 @@ const { Schema, Types } = require('mongoose');
 const dayjs = require('dayjs');
 
 const reactionSchema = new mongoose.Schema({
-  reactionId: {
-    type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId
-  },
+  // reactionId: {
+  //   type: Schema.Types.ObjectId,
+  //   default: () => new Types.ObjectId
+  // },
   reactionBody: {
     type: String,
     required: true,

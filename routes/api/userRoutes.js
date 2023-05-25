@@ -42,7 +42,8 @@ router.post('/:userId/friends/:friendId', async (req, res) => {
   console.log(req.params.userId || req.params.friendId);
   try {
     const userFriend = await User.findByIdAndUpdate({ _id: req.params.userId },
-      { friends: req.params.friendId },
+      { $addToSet: { friends: req.params.friendId } },
+      { new: true }
     )
     console.log(userFriend);
 
